@@ -9,10 +9,11 @@ class XVideoUI : public QWidget
 
 public:
     XVideoUI(QWidget *parent = nullptr);
+    void timerEvent(QTimerEvent* e);
     ~XVideoUI();
  public slots:
      void Open();
-
+     void Set();
 private:
     Ui::XVideoUIClass ui;
 };

@@ -100,6 +100,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="XFilter.cpp" />
+    <ClCompile Include="XImagePro.cpp" />
     <ClCompile Include="XVideoThread.cpp" />
     <ClCompile Include="XVideoWidget.cpp" />
     <QtRcc Include="XVideoUI.qrc" />
@@ -111,6 +113,10 @@
   <ItemGroup>
     <QtMoc Include="XVideoThread.h" />
     <QtMoc Include="XVideoWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="XFilter.h" />
+    <ClInclude Include="XImagePro.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
