@@ -170,6 +170,19 @@ border-color: rgb(255, 255, 255);
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="exportButton">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>110</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导出</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -231,9 +244,27 @@ border-color: rgb(255, 255, 255);
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>exportButton</sender>
+   <signal>clicked()</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>Export()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>545</x>
+     <y>-23</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Open()</slot>
   <slot>Set()</slot>
+  <slot>slot1()</slot>
+  <slot>Export()</slot>
  </slots>
 </ui>

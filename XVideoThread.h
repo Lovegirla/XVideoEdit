@@ -19,13 +19,15 @@ public:
 	//返回当前播放的位置
 	double GetPos();
 	~XVideoThread();
-
+	bool StartSave(const std::string filename ,int width=0 ,int height=0 ) ;
+	void StopSave();
 	void run();
 signals:
 	void ViewImage1(cv::Mat mat);
 	void ViewDes(cv::Mat mat);
 protected:
 	XVideoThread();
+	bool isWrite = false;
 	QMutex mutex;
 };
 

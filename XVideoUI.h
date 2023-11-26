@@ -14,6 +14,7 @@ public:
  public slots:
      void Open();
      void Set();
+     void Export();
 private:
     Ui::XVideoUIClass ui;
 };

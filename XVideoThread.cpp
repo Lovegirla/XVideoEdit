@@ -10,6 +10,7 @@ using namespace std;
 using namespace cv;
 //一号视频
 static VideoCapture cap1;
+static VideoWriter vw;
 static bool isexit = false;
 
 bool XVideoThread::Open(const string file)
@@ -61,6 +62,46 @@ XVideoThread::~XVideoThread()
 	wait();
 }
 
+bool XVideoThread::StartSave(const std::string filename, int width, int height)
+{
+	cout << "开始导出" << endl;
+	
+	if (cap1.isOpened())
+	{
+		return false;
+	}
+	if (width <=0 )
+	{
+		width = cap1.get(CAP_PROP_FRAME_WIDTH);
+	}
+	if (height <= 0)
+	{
+		height = cap1.get(CAP_PROP_FRAME_HEIGHT);
+	}
+	mutex.lock();
+	
+	vw.open(filename,VideoWriter::fourcc('X','2','6','4'),
+		this->fps,Size(width,height));
+	if (!vw.isOpened())
+	{
+		mutex.unlock();
+		cout << "start save failed" << endl;
+		return false;
+	}
+	this->isWrite = true;
+	mutex.unlock();
+	return true;
+}
+
+void XVideoThread::StopSave()
+{
+	cout << "停止导出" << endl;
+	mutex.lock();
+	vw.release();
+	isWrite = false;
+	mutex.unlock();
+}
+
 void XVideoThread::run()
 {
 	Mat mat1;
@@ -78,13 +119,23 @@ void XVideoThread::run()
 			continue;
 		}
 		if (!cap1.read(mat1)||mat1.empty()) {
+			
 			mutex.unlock();
+			if (isWrite)
+			{
+				StopSave();
+			}
 			msleep(5);
 			continue;
 		}
 		ViewImage1(mat1);
 		Mat des  = XFilter::GetInstance()->Filter(mat1,Mat());
 		ViewDes(des);
+
+		if (isWrite)
+		{
+			vw.write(des);
+		}
 		/*msleep(40);*/
 		int s = 0;
 		s = 1000 / fps;

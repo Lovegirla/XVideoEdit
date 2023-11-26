@@ -40,10 +40,32 @@ void XVideoUI::Set()
     XFilter::GetInstance()->Clear();
     if (ui.bright->value()>0||ui.constrat->value()>1)
     {
-        XFilter::GetInstance()->Add(XTask{ XTASK_GAIN,{(double)ui.bright->value(),ui.constrat->value()} });
+        XFilter::GetInstance()->Add(XTask{ XTASK_GAIN,{(double)ui.bright->value(),ui.constrat->value()} } );
     }
 }
-
+void XVideoUI::Export()
+{
+    static bool isExport = false;
+    if (isExport)
+    {
+        XVideoThread::Get()->StopSave();
+        isExport = false;
+        ui.exportButton->setText("导出");
+        return;
+    }
+    QString name = QFileDialog::getSaveFileName(this,"save","out1.avi");
+    if (name.isEmpty()) 
+    {
+        return;
+    }
+    std::string filename = name.toLocal8Bit().data();
+    if (XVideoThread::Get()->StartSave(filename))
+    {
+        ui.exportButton->setText("停止");
+        isExport = true;
+    }
+       
+}
 void XVideoUI::Open()
 {
    QString name =  QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("请选择视频文件"));
